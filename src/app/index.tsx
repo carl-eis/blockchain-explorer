@@ -1,11 +1,25 @@
-import React from 'react';
-import 'normalize.css';
+import React, { FC } from 'react';
 
-function App() {
+import {
+  BrowserRouter as Router,
+  Switch, Route, Link, Redirect,
+} from 'react-router-dom';
+
+import Navbar from '../components/navbar';
+
+import ExplorerPage from '../pages/explorer';
+
+const App: FC = () => {
   return (
-    <div className="App">
-      {/*TODO: Add content*/}
-    </div>
+    <Router>
+      <Navbar/>
+      <Switch>
+        <Route path={'/explorer'}>
+          <ExplorerPage />
+        </Route>
+        <Redirect from={'/'} to={'/explorer'} />
+      </Switch>
+    </Router>
   );
 }
 
