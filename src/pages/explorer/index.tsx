@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import TickerSidebar from './components/ticker-sidebar';
 import LatestBlocks from './components/latest-blocks';
+import SearchBar from './components/search-bar';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -58,8 +59,9 @@ const HomePage: FC<IProps> = (props) => {
           <h3>Block Explorer</h3>
           <TickerSidebar />
         </SidebarWrapper>
+
         <ExplorerWrapper>
-          <div>Search Input</div>
+          <SearchBar/>
           <div>Latest Blocks</div>
           <LatestBlocks />
         </ExplorerWrapper>

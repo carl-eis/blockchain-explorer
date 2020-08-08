@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import {
   BrowserRouter as Router,
-  Switch, Route, Link, Redirect,
+  Switch, Route, Redirect,
 } from 'react-router-dom';
 
 import Navbar from '../components/navbar';
