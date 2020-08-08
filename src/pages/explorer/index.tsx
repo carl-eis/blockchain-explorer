@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import TickerSidebar from './components/ticker-sidebar';
 import LatestBlocks from './components/latest-blocks';
 import SearchBar from './components/search-bar';
+import SectionHeading from '../../components/typography/section-heading';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -25,14 +26,12 @@ const PageContainer = styled.div`
   }
 `;
 
+const SearchbarWrapper = styled.div`
+  margin-bottom: 16px;
+`;
+
 const SidebarWrapper = styled.div`
   flex: 0 1 300px;
-  
-  h3 {
-    font-weight: 500;
-    margin: 0;
-    padding: 0;
-  }
   
   @media (max-width: 876px) {
     flex: 1 1 auto;
@@ -56,14 +55,22 @@ const HomePage: FC<IProps> = (props) => {
     <PageWrapper>
       <PageContainer>
         <SidebarWrapper>
-          <h3>Block Explorer</h3>
-          <TickerSidebar />
+          <SectionHeading>
+            Block Explorer
+          </SectionHeading>
+          <TickerSidebar/>
         </SidebarWrapper>
 
         <ExplorerWrapper>
-          <SearchBar/>
-          <div>Latest Blocks</div>
-          <LatestBlocks />
+          <SearchbarWrapper>
+            <SearchBar/>
+          </SearchbarWrapper>
+
+          <SectionHeading>
+            Latest Blocks
+          </SectionHeading>
+
+          <LatestBlocks/>
         </ExplorerWrapper>
       </PageContainer>
     </PageWrapper>

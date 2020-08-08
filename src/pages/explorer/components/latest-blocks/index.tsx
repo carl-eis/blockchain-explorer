@@ -21,6 +21,7 @@ const StyledTable = styled.table`
   
   td {
     padding: 12px 5px 12px 0;
+    white-space: nowrap;
   }
   
   tr {
@@ -46,24 +47,31 @@ interface IBlockEntry {
 
 const fakeResults = [
   {
-    height: 123123123,
-    hash: 'testssedkfjgskjdfngjkdfngetsetset',
-    mined: 'testsetsetset',
-    miner: 'testsetsetset',
+    height: 615894,
+    hash: '00000000000000000005ca55a40c80213c61e5dfc6a5c2d6d38263303ead1468',
+    mined: '4 Minutes',
+    miner: 'SlushPool',
     size: 123123123,
   },
   {
-    height: 123123123,
-    hash: 'testssedkfjgskjdfngjkdfngetsetset',
-    mined: 'testsetsetset',
-    miner: 'testsetsetset',
+    height: 615894,
+    hash: '00000000000000000005ca55a40c80213c61e5dfc6a5c2d6d38263303ead1468',
+    mined: '4 Minutes',
+    miner: 'SlushPool',
     size: 123123123,
   },
   {
-    height: 123123123,
-    hash: 'testssedkfjgskjdfngjkdfngetsetset',
-    mined: 'testsetsetset',
-    miner: 'testsetsetset',
+    height: 615894,
+    hash: '00000000000000000005ca55a40c80213c61e5dfc6a5c2d6d38263303ead1468',
+    mined: '4 Minutes',
+    miner: 'SlushPool',
+    size: 123123123,
+  },
+  {
+    height: 615894,
+    hash: '00000000000000000005ca55a40c80213c61e5dfc6a5c2d6d38263303ead1468',
+    mined: '4 Minutes',
+    miner: 'SlushPool',
     size: 123123123,
   },
 ]
