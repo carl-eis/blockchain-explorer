@@ -3,11 +3,14 @@ import styled from 'styled-components';
 
 import TickerItem from './ticker-item';
 
+import { IGetTickersResponse } from '../../../../api/get-ticker-values';
+
 import {
   IconBitcoin,
   IconBitcoinCash,
   IconEthereum,
 } from '../../../../app/constants';
+
 
 const TickersWrapper = styled.div`
   flex: 0 1 auto;
@@ -21,21 +24,58 @@ const TickersWrapper = styled.div`
   }
 `;
 
+
+const getIconComponent = (symbol: string) => {
+  switch (symbol) {
+    case 'BTC':
+      return IconBitcoin;
+    case 'ETH':
+      return IconEthereum;
+    case 'BCH':
+      return IconBitcoinCash;
+    default: return () => <></>;
+  }
+}
+
+
 interface IProps {
-  [x: string]: any;
+  isLoading?: boolean;
+  trackedCurrencies: Array<{ name: string; symbol: string }>;
+  tickers: {
+    [cryptoSymbol: string]: IGetTickersResponse;
+  };
 }
 
 const TickerSidebar: FC<IProps> = (props) => {
-  const {  } = props;
+  const {
+    trackedCurrencies,
+    tickers,
+    isLoading,
+  } = props;
+
+  const getCurrencyValue = (tickerSymbol: string, fiatSymbol: string = 'USD') => {
+    return tickers?.[tickerSymbol]?.[fiatSymbol]?.last;
+  }
+
   return (
     <TickersWrapper>
-      <TickerItem IconComponent={IconBitcoin} label={'Bitcoin'} value={3900.1232} />
-      <TickerItem IconComponent={IconEthereum} label={'Ethereum'} value={3900.1232} />
-      <TickerItem IconComponent={IconBitcoinCash} label={'Bitcoin Cash'} value={3900.1232} />
+      {trackedCurrencies.map(currency => (
+        <TickerItem
+          key={currency?.symbol}
+          IconComponent={getIconComponent(currency?.symbol)}
+          label={currency?.name}
+          value={getCurrencyValue(currency?.symbol)}
+          isLoading={isLoading}
+        />
+      ))}
     </TickersWrapper>
   );
 };
 
-TickerSidebar.defaultProps = {};
+TickerSidebar.defaultProps = {
+  isLoading: false,
+  tickers: {},
+  trackedCurrencies: [],
+};
 
 export default TickerSidebar;

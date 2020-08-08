@@ -46,6 +46,7 @@ interface IProps {
   value: number;
   IconComponent: () => JSX.Element;
   currencySymbol?: string;
+  isLoading?: boolean;
 }
 
 const TickerItem: FC<IProps> = (props) => {
@@ -54,6 +55,7 @@ const TickerItem: FC<IProps> = (props) => {
     label,
     value,
     currencySymbol,
+    isLoading,
   } = props;
 
   const formattedValue = useMemo(() => {
@@ -68,7 +70,7 @@ const TickerItem: FC<IProps> = (props) => {
       </IconWrapper>
       <ValuesWrapper>
         <TickerName>{label}</TickerName>
-        <TickerValue>{currencySymbol}{formattedValue}</TickerValue>
+        <TickerValue>{isLoading ? '...' : `${currencySymbol} ${formattedValue}`}</TickerValue>
       </ValuesWrapper>
     </Wrapper>
   );
@@ -76,9 +78,10 @@ const TickerItem: FC<IProps> = (props) => {
 
 TickerItem.defaultProps = {
   label: 'Bitcoin',
-  value: 3900.1238,
+  value: 0,
   IconComponent: () => <></>,
   currencySymbol: '$',
+  isLoading: false,
 };
 
 export default TickerItem;

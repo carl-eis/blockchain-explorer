@@ -1,49 +1,24 @@
-import React, { FC } from 'react';
-import styled from 'styled-components';
+import React, { FC, useEffect, useState } from 'react';
 
 import TickerSidebar from './components/ticker-sidebar';
 import LatestBlocks from './components/latest-blocks';
 import SearchBar from './components/search-bar';
 import SectionHeading from '../../components/typography/section-heading';
+import fetchTrackedTickers from './helpers/fetched-tracked-tickers';
 
-const PageWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  padding-top: 65px;
-`;
+import {
+  ExplorerWrapper,
+  PageContainer,
+  PageWrapper,
+  SearchbarWrapper,
+  SidebarWrapper,
+} from './styles';
 
-const PageContainer = styled.div`
-  flex: 0 1 1258px;
-  display: flex;
-  flex-direction: row;
-  padding: 20px 15px 0 15px;
-  max-width: 100%;
-  
-  @media (max-width: 876px) {
-    flex-direction: column;
-    padding: 20px 15px 0 15px;
-  }
-`;
-
-const SearchbarWrapper = styled.div`
-  margin-bottom: 16px;
-`;
-
-const SidebarWrapper = styled.div`
-  flex: 0 1 300px;
-  
-  @media (max-width: 876px) {
-    flex: 1 1 auto;
-  }
-`;
-
-const ExplorerWrapper = styled.div`
-  flex: 1 1 auto;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-`;
+const trackedCurrencies = [
+  { name: 'Bitcoin', symbol: 'BTC' },
+  { name: 'Ethereum', symbol: 'ETH' },
+  { name: 'Bitcoin Cash', symbol: 'BCH' },
+];
 
 
 interface IProps {
@@ -51,6 +26,30 @@ interface IProps {
 }
 
 const HomePage: FC<IProps> = (props) => {
+  const [tickerValues, setTickerValues] = useState({});
+  const [hasErrorTickers, setHasErrorTickers] = useState(false);
+  const [isLoadingTickers, setIsLoadingTickers] = useState(false);
+
+  useEffect(() => {
+    const run = async () => {
+      setHasErrorTickers(false);
+      setIsLoadingTickers(true);
+
+      const fetchedTickers = await fetchTrackedTickers(trackedCurrencies.map(item => item?.symbol));
+
+      setTickerValues(fetchedTickers);
+      setIsLoadingTickers(false);
+    };
+
+    try {
+      run();
+    } catch (ex) {
+      console.error(ex);
+      setHasErrorTickers(true);
+    }
+  }, []);
+
+
   return (
     <PageWrapper>
       <PageContainer>
@@ -58,7 +57,11 @@ const HomePage: FC<IProps> = (props) => {
           <SectionHeading>
             Block Explorer
           </SectionHeading>
-          <TickerSidebar/>
+          <TickerSidebar
+            tickers={tickerValues}
+            trackedCurrencies={trackedCurrencies}
+            isLoading={isLoadingTickers}
+          />
         </SidebarWrapper>
 
         <ExplorerWrapper>
