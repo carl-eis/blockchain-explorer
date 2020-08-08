@@ -90,17 +90,17 @@ const LatestBlocks: FC<IProps> = (props) => {
       <StyledTable>
         <thead>
         <tr>
-          {tableColumns.map(({ label }) => (
-            <th>{label}</th>
+          {tableColumns.map(({ label }, index) => (
+            <th key={index}>{label}</th>
           ))}
         </tr>
         </thead>
         <tbody>
-        {results?.map((result : any) => {
+        {results?.map((result : any, resultIndex) => {
           return (
-            <tr>
-              {tableColumns.map(col => (
-                <td>{result[col?.key]}</td>
+            <tr key={resultIndex}>
+              {tableColumns.map((col, columnIndex) => (
+                <td key={columnIndex}>{result[col?.key]}</td>
               ))}
             </tr>
           );
