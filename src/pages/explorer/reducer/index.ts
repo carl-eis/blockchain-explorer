@@ -38,8 +38,6 @@ export const initialState: IExplorerPageReducerState = {
 const explorerPageReducer = (state = initialState, action: IReducerAction): IExplorerPageReducerState => {
   const { type, data } = action;
 
-  console.log(action);
-
   switch (type) {
     case TICKERS_FETCH_START: {
       return {

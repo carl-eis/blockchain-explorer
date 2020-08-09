@@ -73,7 +73,6 @@ const LatestBlocks: FC<IProps> = (props) => {
   const history = useHistory();
 
   const handleHashClick = useCallback((value) => {
-    console.log('value: ', value);
     history.push(`/block?hash=${value}`);
   }, [history]);
 
