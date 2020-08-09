@@ -1,5 +1,3 @@
-import { API_BASE_URL } from '../index';
-
 interface IBlock {
   height: number;
   position: number;
@@ -45,10 +43,42 @@ interface IBtcTransaction {
   weight: number;
 }
 
+const getChunks = (parentArray: any[], chunkLength: number) => {
+  const chunks = [];
+  let current = 0;
+  let max = parentArray.length;
+
+  while (current < max) {
+    chunks.push(parentArray.slice(current, current += chunkLength));
+  }
+
+  return chunks;
+}
+
+
+/**
+ * Get all transaction objects for the supplied transaction IDs
+ *
+ * Note: this endpoint returns a 502 if too many tx ids are supplied.
+ * Ids are split into batches of 10 and fetched simultaneously.
+ *
+ * @param transactionIds
+ */
 const getTransactions = async (transactionIds: string[]): Promise<IBtcTransaction[]> => {
   const url = `https://api.blockchain.info/haskoin-store/btc/transactions?txids=${transactionIds}&cors=true`;
   const response = await fetch(url);
   return await response.json();
 };
 
-export default getTransactions;
+const getBatchTransactions = async (transactionIds: string[]) => {
+  const batches = getChunks(transactionIds, 10);
+  const allTransactions = await Promise.all(batches.map(item => getTransactions(item)));
+  return allTransactions.reduce((total, currentBatch) => {
+    return [
+      ...total,
+      ...currentBatch,
+    ];
+  }, []);
+}
+
+export default getBatchTransactions;
