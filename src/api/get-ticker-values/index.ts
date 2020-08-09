@@ -19,3 +19,5 @@ const getTickerValues = async (baseCurrencySymbol?: string): Promise<IGetTickers
 };
 
 export default getTickerValues;
+
+// https://blockchain.info/blocks/1596970178541?format=json

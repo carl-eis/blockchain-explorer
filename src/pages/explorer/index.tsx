@@ -1,10 +1,22 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useReducer } from 'react';
 
 import TickerSidebar from './components/ticker-sidebar';
 import LatestBlocks from './components/latest-blocks';
 import SearchBar from './components/search-bar';
 import SectionHeading from '../../components/typography/section-heading';
-import fetchTrackedTickers from './helpers/fetched-tracked-tickers';
+import fetchTrackedTickers from './helpers/fetch-tracked-tickers';
+import getLatestBlocks from '../../api/get-latest-blocks';
+
+import explorerPageReducer, { initialState } from './reducer';
+
+import {
+  tickersFetchStart,
+  tickersFetchError,
+  tickersFetchSuccess,
+  blocksFetchSuccess,
+  blocksFetchStart,
+  blocksFetchError,
+} from './actions';
 
 import {
   ExplorerWrapper,
@@ -26,28 +38,25 @@ interface IProps {
 }
 
 const HomePage: FC<IProps> = (props) => {
-  const [tickerValues, setTickerValues] = useState({});
-  const [hasErrorTickers, setHasErrorTickers] = useState(false);
-  const [isLoadingTickers, setIsLoadingTickers] = useState(false);
+  const [state, dispatch] = useReducer(explorerPageReducer, initialState);
+
+  const {
+    tickers,
+    isLoadingTickers,
+  } = state;
+
 
   useEffect(() => {
-    const run = async () => {
-      setHasErrorTickers(false);
-      setIsLoadingTickers(true);
+    dispatch(tickersFetchStart());
+    fetchTrackedTickers(trackedCurrencies.map(item => item?.symbol))
+      .then(response => dispatch(tickersFetchSuccess(response)))
+      .catch(ex => dispatch(tickersFetchError()));
 
-      const fetchedTickers = await fetchTrackedTickers(trackedCurrencies.map(item => item?.symbol));
-
-      setTickerValues(fetchedTickers);
-      setIsLoadingTickers(false);
-    };
-
-    try {
-      run();
-    } catch (ex) {
-      console.error(ex);
-      setHasErrorTickers(true);
-    }
-  }, []);
+    dispatch(blocksFetchStart());
+    getLatestBlocks()
+      .then(response => dispatch(blocksFetchSuccess(response)))
+      .catch(ex => dispatch(blocksFetchError()));
+  }, [dispatch]);
 
 
   return (
@@ -58,7 +67,7 @@ const HomePage: FC<IProps> = (props) => {
             Block Explorer
           </SectionHeading>
           <TickerSidebar
-            tickers={tickerValues}
+            tickers={tickers}
             trackedCurrencies={trackedCurrencies}
             isLoading={isLoadingTickers}
           />
