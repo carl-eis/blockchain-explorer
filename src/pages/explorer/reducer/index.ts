@@ -8,6 +8,7 @@ import {
 } from '../actions';
 
 import { ITickersIndex } from '../helpers/fetch-tracked-tickers';
+import { IBtcLatestBlock } from '../../../api/get-latest-blocks';
 
 interface IReducerAction {
   type: string;
@@ -22,6 +23,7 @@ export interface IExplorerPageReducerState {
 
   isLoadingBlocks: boolean;
   hasErrorBlocks: boolean;
+  blocks: IBtcLatestBlock[];
 }
 
 export const initialState: IExplorerPageReducerState = {
@@ -30,10 +32,14 @@ export const initialState: IExplorerPageReducerState = {
   isLoadingBlocks: false,
   isLoadingTickers: false,
   tickers: {},
+  blocks: [],
 };
 
 const explorerPageReducer = (state = initialState, action: IReducerAction): IExplorerPageReducerState => {
   const { type, data } = action;
+
+  console.log(action);
+
   switch (type) {
     case TICKERS_FETCH_START: {
       return {
@@ -50,11 +56,30 @@ const explorerPageReducer = (state = initialState, action: IReducerAction): IExp
       }
     }
     case TICKERS_FETCH_ERROR: {
-
       return {
         ...state,
         hasErrorTickers: true,
         isLoadingTickers: false,
+      }
+    }
+    case BLOCKS_FETCH_START: {
+      return {
+        ...state,
+        hasErrorBlocks: false,
+        isLoadingBlocks: true,
+      }
+    }
+    case BLOCKS_FETCH_SUCCESS: {
+      return {
+        ...state,
+        isLoadingBlocks: false,
+        blocks: data,
+      }
+    }
+    case BLOCKS_FETCH_ERROR: {
+      return {
+        ...state,
+        hasErrorBlocks: true,
       }
     }
     default:

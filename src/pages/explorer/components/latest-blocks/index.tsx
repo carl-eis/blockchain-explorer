@@ -45,44 +45,15 @@ interface IBlockEntry {
   size: number;
 }
 
-const fakeResults = [
-  {
-    height: 615894,
-    hash: '00000000000000000005ca55a40c80213c61e5dfc6a5c2d6d38263303ead1468',
-    mined: '4 Minutes',
-    miner: 'SlushPool',
-    size: 123123123,
-  },
-  {
-    height: 615894,
-    hash: '00000000000000000005ca55a40c80213c61e5dfc6a5c2d6d38263303ead1468',
-    mined: '4 Minutes',
-    miner: 'SlushPool',
-    size: 123123123,
-  },
-  {
-    height: 615894,
-    hash: '00000000000000000005ca55a40c80213c61e5dfc6a5c2d6d38263303ead1468',
-    mined: '4 Minutes',
-    miner: 'SlushPool',
-    size: 123123123,
-  },
-  {
-    height: 615894,
-    hash: '00000000000000000005ca55a40c80213c61e5dfc6a5c2d6d38263303ead1468',
-    mined: '4 Minutes',
-    miner: 'SlushPool',
-    size: 123123123,
-  },
-]
-
 interface IProps {
-  results?: IBlockEntry[];
+  blocks: IBlockEntry[];
+  isLoading?: boolean;
 }
 
 const LatestBlocks: FC<IProps> = (props) => {
   const {
-    results,
+    blocks,
+    isLoading,
   } = props;
 
   return (
@@ -96,7 +67,7 @@ const LatestBlocks: FC<IProps> = (props) => {
         </tr>
         </thead>
         <tbody>
-        {results?.map((result : any, resultIndex) => {
+        {blocks?.map((result : any, resultIndex) => {
           return (
             <tr key={resultIndex}>
               {tableColumns.map((col, columnIndex) => (
@@ -112,7 +83,8 @@ const LatestBlocks: FC<IProps> = (props) => {
 };
 
 LatestBlocks.defaultProps = {
-  results: fakeResults,
+  blocks: [],
+  isLoading: false,
 };
 
 export default LatestBlocks;

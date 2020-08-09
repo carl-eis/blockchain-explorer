@@ -5,7 +5,8 @@ import LatestBlocks from './components/latest-blocks';
 import SearchBar from './components/search-bar';
 import SectionHeading from '../../components/typography/section-heading';
 import fetchTrackedTickers from './helpers/fetch-tracked-tickers';
-import getLatestBlocks from '../../api/get-latest-blocks';
+import fetchBlockInfo from './helpers/fetch-block-info';
+
 
 import explorerPageReducer, { initialState } from './reducer';
 
@@ -43,6 +44,8 @@ const HomePage: FC<IProps> = (props) => {
   const {
     tickers,
     isLoadingTickers,
+    isLoadingBlocks,
+    blocks,
   } = state;
 
 
@@ -53,7 +56,7 @@ const HomePage: FC<IProps> = (props) => {
       .catch(ex => dispatch(tickersFetchError()));
 
     dispatch(blocksFetchStart());
-    getLatestBlocks()
+    fetchBlockInfo()
       .then(response => dispatch(blocksFetchSuccess(response)))
       .catch(ex => dispatch(blocksFetchError()));
   }, [dispatch]);
@@ -82,7 +85,10 @@ const HomePage: FC<IProps> = (props) => {
             Latest Blocks
           </SectionHeading>
 
-          <LatestBlocks/>
+          <LatestBlocks
+            blocks={blocks as any}
+            isLoading={isLoadingBlocks}
+          />
         </ExplorerWrapper>
       </PageContainer>
     </PageWrapper>
