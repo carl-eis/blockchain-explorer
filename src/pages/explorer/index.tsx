@@ -86,7 +86,7 @@ const HomePage: FC<IProps> = (props) => {
           </SectionHeading>
 
           <LatestBlocks
-            blocks={blocks as any}
+            blocks={blocks}
             isLoading={isLoadingBlocks}
           />
         </ExplorerWrapper>

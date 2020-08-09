@@ -23,7 +23,7 @@ const fetchBlockInfo = async () => {
       hash,
       miner: matchingTransaction?.outputs?.[0]?.address,
     }
-  });
+  }).reverse();
 }
 
 export default fetchBlockInfo;

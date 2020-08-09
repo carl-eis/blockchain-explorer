@@ -44,7 +44,7 @@ interface IBtcTransaction {
 }
 
 const getChunks = (parentArray: any[], chunkLength: number) => {
-  const chunks = [];
+  const chunks: any[] = [];
   let current = 0;
   let max = parentArray.length;
 

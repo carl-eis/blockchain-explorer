@@ -1,89 +1,96 @@
-import React, { FC } from 'react';
-import styled from 'styled-components';
+import React, { FC, useCallback, useMemo } from 'react';
+import { useHistory } from 'react-router-dom';
+import Moment from 'moment';
 
-const TableWrapper = styled.div`
-  display: block;
-  overflow-x: auto;
-  width: 100%;
-`;
+import InfoTable from '../../../../components/info-table';
+import getPoolAddressName from '../../helpers/get-pool-address-name';
 
-const StyledTable = styled.table`
-  flex: 1 1 auto;
-  width: 100%;
-  border-collapse: collapse;
-  color: #353F52;
-  table-layout: auto;
+const createTableColumns = (handleHashClick: (value: any) => void) => {
+  return [
+    {
+      key: 'height',
+      label: 'Height',
+      formatter: null,
+    },
+    {
+      key: 'hash',
+      label: 'Hash',
+      formatter: (value: string) => {
+        const nextStr = [
+          value.charAt(0),
+          '...',
+        ];
 
-  th {
-    padding: 12px 12px 12px 0;
-    text-align: left;
-  }
-  
-  td {
-    padding: 12px 5px 12px 0;
-    white-space: nowrap;
-  }
-  
-  tr {
-    border-bottom: 1px solid lightgray;
-  }
-`;
+        let shouldOmit = true;
 
-const tableColumns = [
-  { key: 'height', label: 'Height' },
-  { key: 'hash', label: 'Hash' },
-  { key: 'mined', label: 'Mined' },
-  { key: 'miner', label: 'Miner' },
-  { key: 'size', label: 'Size' },
-];
+        for (let i = 0; i < value.length; i++) {
+          const nextChar = value.charAt(i);
+          if (nextChar === '0' && shouldOmit) {
 
-interface IBlockEntry {
-  height: number;
-  hash: string;
-  mined: string;
-  miner: string;
-  size: number;
+          } else {
+            shouldOmit = false;
+            nextStr.push(nextChar);
+          }
+        }
+
+        return nextStr.join('');
+      },
+      onClick: (event: any, value: any) => {
+        handleHashClick(value);
+      }
+    },
+    {
+      key: 'mined',
+      label: 'Mined',
+      formatter: (value: number) => Moment(value * 1000).fromNow(),
+    },
+    {
+      key: 'miner',
+      label: 'Miner',
+      formatter: (value: string) => getPoolAddressName(value),
+    },
+    {
+      key: 'size',
+      label: 'Size',
+      formatter: (value: number) => {
+        return `${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} bytes`;
+      },
+    },
+  ] as any[];
 }
 
 interface IProps {
-  blocks: IBlockEntry[];
   isLoading?: boolean;
+  blocks: any[];
 }
 
 const LatestBlocks: FC<IProps> = (props) => {
   const {
-    blocks,
     isLoading,
+    blocks,
   } = props;
 
+  const history = useHistory();
+
+  const handleHashClick = useCallback((value) => {
+    console.log('value: ', value);
+    history.push(`/block?hash=${value}`);
+  }, [history]);
+
+  const columns = useMemo(() => {
+    return createTableColumns(handleHashClick);
+  }, [handleHashClick])
+
   return (
-    <TableWrapper>
-      <StyledTable>
-        <thead>
-        <tr>
-          {tableColumns.map(({ label }, index) => (
-            <th key={index}>{label}</th>
-          ))}
-        </tr>
-        </thead>
-        <tbody>
-        {blocks?.map((result : any, resultIndex) => {
-          return (
-            <tr key={resultIndex}>
-              {tableColumns.map((col, columnIndex) => (
-                <td key={columnIndex}>{result[col?.key]}</td>
-              ))}
-            </tr>
-          );
-        })}
-        </tbody>
-      </StyledTable>
-    </TableWrapper>
+    <InfoTable
+      isLoading={isLoading}
+      columns={columns}
+      rowData={blocks}
+    />
   );
 };
 
 LatestBlocks.defaultProps = {
-  blocks: [],
   isLoading: false,
 };
 

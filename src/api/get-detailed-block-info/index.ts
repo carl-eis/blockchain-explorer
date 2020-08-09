@@ -1,21 +1,20 @@
-import { API_BASE_URL } from '../index';
-
 export interface IBtcDetailedBlockInfo {
+  bits: number;
+  fees: number; // fee reward
   hash: string;
   height: number;
   mainchain: boolean;
-  previous: string;
-  version: number;
-  bits: number;
-  nonce: number;
-  size: number;
-  tx: string[];
   merkle: string;
-  subsidy: number;
-  fees: number;
-  outputs: number;
-  work: number;
+  nonce: number;
+  outputs: number; // transaction volume
+  previous: string;
+  size: number;
+  subsidy: number; // block reward
+  tx: string[];
+  time: number; // timestamp
+  version: number;
   weight:number;
+  work: number;
 }
 
 const getDetailedBlockInfo = async (blockHeights: number[]): Promise<IBtcDetailedBlockInfo[]> => {
