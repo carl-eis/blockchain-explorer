@@ -16,12 +16,11 @@ import {
 import { PageContainer, PageWrapper } from '../../components/styles';
 import { IconBitcoin } from '../../app/constants';
 import InfoTable from '../../components/info-table';
+
 import fetchRawBlockInfo, { IProcessedRawBlockResult } from '../../helpers/fetch-raw-block-info';
 import formatLongNumber from '../../helpers/format-long-number';
-
-const convertToBtc = (satoshiValue: number): string => {
-  return (satoshiValue / 100000000).toFixed(8);
-}
+import Transactions from './components/transactions';
+import formatBtc from '../../helpers/format-btc';
 
 const parseQueryParams = (search: string): any => {
   return search.substr(1).split('&').reduce((acc, currentPair) => {
@@ -44,6 +43,7 @@ const BlockPage: FC<IProps> = () => {
   const [blockResult, setBlockResult] = useState<IProcessedRawBlockResult | null>(null);
 
   const currencyName = 'Bitcoin';
+  const transactions = blockResult?.transactions || [];
 
   useEffect(() => {
     setIsSearching(true);
@@ -141,15 +141,15 @@ const BlockPage: FC<IProps> = () => {
       },
       {
         name: 'Transaction Volume',
-        value: `${convertToBtc(volume)} BTC`,
+        value: `${formatBtc(volume)} BTC`,
       },
       {
         name: 'Block Reward',
-        value: `${convertToBtc(blockReward)} BTC`,
+        value: `${formatBtc(blockReward)} BTC`,
       },
       {
         name: 'Fee Reward',
-        value: `${convertToBtc(blockFee)} BTC`,
+        value: `${formatBtc(blockFee)} BTC`,
       },
     ];
   }, [blockResult])
@@ -200,6 +200,12 @@ const BlockPage: FC<IProps> = () => {
                     showColumnHeaders={false}
                 />
             </PageContent>
+
+          {!!blockResult && !isSearching && (
+            <Transactions
+              transactions={transactions}
+            />
+          )}
         </>}
       </PageContainer>
     </PageWrapper>

@@ -1,4 +1,4 @@
-import getRawBlock from '../../api/get-raw-block';
+import getRawBlock, { IRawTransaction } from '../../api/get-raw-block';
 import getDetailedBlockInfo from '../../api/get-detailed-block-info';
 import getPoolAddressName from '../get-pool-address-name';
 
@@ -19,6 +19,7 @@ export interface IProcessedRawBlockResult {
   volume: number;
   blockReward: number;
   blockFee: number;
+  transactions: IRawTransaction[];
 }
 
 const fetchRawBlockInfo = async (blockHash: string): Promise<IProcessedRawBlockResult> => {
@@ -71,6 +72,7 @@ const fetchRawBlockInfo = async (blockHash: string): Promise<IProcessedRawBlockR
     volume: outputs,
     blockReward: subsidy,
     blockFee: fees,
+    transactions: tx,
   };
 }
 

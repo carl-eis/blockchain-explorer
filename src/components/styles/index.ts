@@ -11,10 +11,10 @@ export const PageContainer = styled.div<{ vertical?: boolean }>`
   display: flex;
   flex-direction: ${props => props?.vertical ? 'column' : 'row'};
   padding: 20px 15px 0 15px;
-  max-width: 100%;
+  overflow: hidden;
   
   @media (max-width: 876px) {
-    flex-direction: c+olumn;
+    flex-direction: column;
     padding: 20px 15px 0 15px;
   }
 `;

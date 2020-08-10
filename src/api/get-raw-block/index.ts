@@ -16,9 +16,10 @@ interface IInputs {
   witness: string;
   script: string;
   index: number;
+  prev_out?: any;
 }
 
-interface IRawTransaction {
+export interface IRawTransaction {
   hash: string;
   ver: number;
   vin_sz: number;

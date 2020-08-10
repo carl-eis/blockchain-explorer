@@ -25,6 +25,7 @@ import {
   SearchbarWrapper,
   SidebarWrapper,
 } from './styles';
+
 import { PageContainer, PageWrapper } from '../../components/styles';
 
 const trackedCurrencies = [
