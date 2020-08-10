@@ -74,10 +74,10 @@ const InfoCell = styled.div`
 `;
 
 const LineItem = styled.div`
+  display: flex;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  display: flex;
   flex-direction: row;
   flex: 1 0 100%;
   margin-bottom: 5px;
@@ -92,21 +92,36 @@ const LongTextLine = styled.div<{ address?: boolean }>`
 `;
 
 const ShortTextLine = styled.div<{ output?: boolean }>`
+  display: flex;
+  align-items: flex-start;
   justify-self: flex-end;
   flex: 0 0 auto;
   margin-left: 10px;
   svg {
     height: 100%;
     fill: ${props => props.output ? 'rgb(51, 159, 123)' : 'rgb(61, 137, 245)'};
+    margin-left: 5px;
   }
 `;
 
-const processAddress = (addr: string) => {
-  if (!addr || addr === 'null') {
-    return 'OP_RETURN';
-  }
-  return addr;
-}
+const TotalsBlockWrapper = styled.div`
+  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 100%;
+`;
+
+const TotalsBlock = styled.div`
+  flex: 0 1 auto;
+  display: flex;
+  background: #D1F0DB;
+  color: #00875a;
+  height: 27px;
+  padding: 4px;
+  border-radius: 4px;
+  align-items: center;
+`;
 
 
 interface IProps {
@@ -121,11 +136,7 @@ const Transactions: FC<IProps> = (props) => {
     <Wrapper>
       <SectionHeading>Transactions</SectionHeading>
       {transactionSlice.map((transaction) => {
-        const {
-          time,
-          inputs,
-          out,
-        } = transaction;
+        const { time, out } = transaction;
 
         return (
           <>
@@ -167,14 +178,14 @@ const Transactions: FC<IProps> = (props) => {
                   <InfoCell>
                     <LineItem>
                       <LongTextLine/>
-                      <ShortTextLine>{Moment(time * 1000).format('YYYY-MM-DD HH:MM')}</ShortTextLine>
+                      <ShortTextLine>{Moment(time * 1000).format('YYYY-MM-DD HH:mm')}</ShortTextLine>
                     </LineItem>
                   </InfoCell>
                 </InnerRow>
 
                 <InnerRow>
                   <ArrowCell>
-                    <IconArrow />
+                    <IconArrow/>
                   </ArrowCell>
                   <InfoCell>
                     {out.map(outTx => (
@@ -189,6 +200,11 @@ const Transactions: FC<IProps> = (props) => {
                         </ShortTextLine>
                       </LineItem>
                     ))}
+                    <LineItem>
+                      <TotalsBlockWrapper>
+                        <TotalsBlock>{formatBtc(out.reduce((acc, outTx) => acc + outTx.value, 0))} BTC</TotalsBlock>
+                      </TotalsBlockWrapper>
+                    </LineItem>
                   </InfoCell>
                 </InnerRow>
               </OuterColumn>

@@ -93,11 +93,11 @@ const BlockPage: FC<IProps> = () => {
       },
       {
         name: 'Confirmations',
-        value: confirmations,
+        value: confirmations || '-',
       },
       {
         name: 'Timestamp',
-        value: Moment(timestamp * 1000).format('YYYY-MM-DD HH:MM'),
+        value: Moment(timestamp * 1000).format('YYYY-MM-DD HH:mm'),
       },
       {
         name: 'Height',
