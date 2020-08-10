@@ -7,7 +7,7 @@ export const PageWrapper = styled.div`
 `;
 
 export const PageContainer = styled.div<{ vertical?: boolean }>`
-  flex: 0 1 1258px;
+  flex: 0 1 1400px;
   display: flex;
   flex-direction: ${props => props?.vertical ? 'column' : 'row'};
   padding: 20px 15px 0 15px;
