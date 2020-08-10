@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, Fragment } from 'react';
 import Moment from 'moment';
 import styled from 'styled-components';
 
@@ -135,11 +135,11 @@ const Transactions: FC<IProps> = (props) => {
   return (
     <Wrapper>
       <SectionHeading>Transactions</SectionHeading>
-      {transactionSlice.map((transaction) => {
+      {transactionSlice.map((transaction, index) => {
         const { time, out } = transaction;
 
         return (
-          <>
+          <Fragment key={index}>
             <Outer>
               <OuterColumn>
                 <InnerRow>
@@ -162,8 +162,8 @@ const Transactions: FC<IProps> = (props) => {
                           COINBASE (Newly Generated Coins)
                         </LongTextLine>
                       </LineItem>
-                    ) : transaction.inputs.map(input => (
-                      <LineItem>
+                    ) : transaction.inputs.map((input, index) => (
+                      <LineItem key={index}>
                         <LongTextLine address>{input.prev_out?.addr}</LongTextLine>
                         <ShortTextLine>{formatBtc(input.prev_out?.value)} BTC <IconGlobe/></ShortTextLine>
                       </LineItem>
@@ -210,7 +210,7 @@ const Transactions: FC<IProps> = (props) => {
               </OuterColumn>
             </Outer>
             <Separator/>
-          </>
+          </Fragment>
         )
       })}
     </Wrapper>
