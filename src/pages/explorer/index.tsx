@@ -5,8 +5,8 @@ import TickerSidebar from './components/ticker-sidebar';
 import LatestBlocks from './components/latest-blocks';
 import SearchBar from './components/search-bar';
 import SectionHeading from '../../components/typography/section-heading';
-import fetchTrackedTickers from './helpers/fetch-tracked-tickers';
-import fetchBlockInfo from './helpers/fetch-block-info';
+import fetchTrackedTickers from '../../helpers/fetch-tracked-tickers';
+import fetchBlockInfo from '../../helpers/fetch-block-info';
 
 import explorerPageReducer, { initialState } from './reducer';
 
@@ -22,11 +22,10 @@ import {
 
 import {
   ExplorerWrapper,
-  PageContainer,
-  PageWrapper,
   SearchbarWrapper,
   SidebarWrapper,
 } from './styles';
+import { PageContainer, PageWrapper } from '../../components/styles';
 
 const trackedCurrencies = [
   { name: 'Bitcoin', symbol: 'BTC' },
@@ -39,7 +38,7 @@ interface IProps {
   [x: string]: any;
 }
 
-const HomePage: FC<IProps> = (props) => {
+const HomePage: FC<IProps> = () => {
   const [state, dispatch] = useReducer(explorerPageReducer, initialState);
 
   const history = useHistory();

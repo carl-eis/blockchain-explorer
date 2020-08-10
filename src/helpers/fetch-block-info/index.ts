@@ -1,6 +1,6 @@
-import getLatestBlocks, { IBtcLatestBlocksResponse } from '../../../../api/get-latest-blocks';
-import getDetailedBlockInfo, { IBtcDetailedBlockInfo } from '../../../../api/get-detailed-block-info';
-import getTransactions from '../../../../api/get-transactions';
+import getLatestBlocks, { IBtcLatestBlocksResponse } from '../../api/get-latest-blocks';
+import getDetailedBlockInfo, { IBtcDetailedBlockInfo } from '../../api/get-detailed-block-info';
+import getTransactions from '../../api/get-transactions';
 
 const fetchBlockInfo = async () => {
   const latestBlocks: IBtcLatestBlocksResponse = await getLatestBlocks();

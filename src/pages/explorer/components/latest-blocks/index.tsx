@@ -3,7 +3,8 @@ import { useHistory } from 'react-router-dom';
 import Moment from 'moment';
 
 import InfoTable from '../../../../components/info-table';
-import getPoolAddressName from '../../helpers/get-pool-address-name';
+import getPoolAddressName from '../../../../helpers/get-pool-address-name';
+import formatLongNumber from '../../../../helpers/format-long-number';
 
 const createTableColumns = (handleHashClick: (value: any) => void) => {
   return [
@@ -53,7 +54,7 @@ const createTableColumns = (handleHashClick: (value: any) => void) => {
       key: 'size',
       label: 'Size',
       formatter: (value: number) => {
-        return `${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} bytes`;
+        return `${formatLongNumber(value)} bytes`;
       },
     },
   ] as any[];

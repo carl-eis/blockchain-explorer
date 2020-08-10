@@ -1,4 +1,4 @@
-import getTickerValues, { IGetTickersResponse } from '../../../../api/get-ticker-values';
+import getTickerValues, { IGetTickersResponse } from '../../api/get-ticker-values';
 
 export interface ITickersIndex {
   [currencySymbol: string]: IGetTickersResponse;

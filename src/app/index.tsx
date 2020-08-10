@@ -1,23 +1,21 @@
 import React, { FC } from 'react';
 
-import {
-  BrowserRouter as Router,
-  Switch, Route, Redirect,
-} from 'react-router-dom';
-
-import Navbar from '../components/navbar';
+import { BrowserRouter as Router, Redirect, Route, Switch, } from 'react-router-dom';
 
 import ExplorerPage from '../pages/explorer';
+import BlockPage from '../pages/block';
 
 const App: FC = () => {
   return (
     <Router>
-      <Navbar/>
       <Switch>
         <Route path={'/explorer'}>
-          <ExplorerPage />
+          <ExplorerPage/>
         </Route>
-        <Redirect from={'/'} to={'/explorer'} />
+        <Route path={'/block'}>
+          <BlockPage/>
+        </Route>
+        <Redirect from={'/'} to={'/explorer'}/>
       </Switch>
     </Router>
   );

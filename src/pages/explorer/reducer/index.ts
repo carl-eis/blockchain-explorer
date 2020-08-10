@@ -8,7 +8,7 @@ import {
   SEARCH_VALUE_CHANGE,
 } from '../actions';
 
-import { ITickersIndex } from '../helpers/fetch-tracked-tickers';
+import { ITickersIndex } from '../../../helpers/fetch-tracked-tickers';
 import { IBtcLatestBlock } from '../../../api/get-latest-blocks';
 
 interface IReducerAction {

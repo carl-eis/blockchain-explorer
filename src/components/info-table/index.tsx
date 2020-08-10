@@ -35,7 +35,7 @@ const TableCell = styled.td<{ isClickable?: boolean }>`
     color: cornflowerblue;
     cursor: pointer;
     
-    &:hover{ 
+    &:hover { 
       text-decoration: underline;
     }
   ` : ''}
@@ -53,12 +53,14 @@ type ITableColumns = Array<{
   label: string;
   formatter?: (value: any) => any;
   onClick?: (event: any, value: any) => void;
+  styles?: React.CSSProperties
 }>
 
 interface IProps {
   isLoading?: boolean;
   columns: ITableColumns;
   rowData: any[];
+  showColumnHeaders?: boolean;
 }
 
 const InfoTable: FC<IProps> = (props) => {
@@ -66,6 +68,7 @@ const InfoTable: FC<IProps> = (props) => {
     columns,
     rowData,
     isLoading,
+    showColumnHeaders,
   } = props;
 
   const handleCellClick = (value, callback) => (event) => {
@@ -82,15 +85,17 @@ const InfoTable: FC<IProps> = (props) => {
   return (
     <TableWrapper>
       <StyledTable>
-        <thead>
-        <tr>
-          {columns.map(({ label }, index) => (
-            <th key={index}>{label}</th>
-          ))}
-        </tr>
-        </thead>
+        {showColumnHeaders && (
+          <thead>
+          <tr>
+            {columns.map(({ label }, index) => (
+              <th key={index}>{label}</th>
+            ))}
+          </tr>
+          </thead>
+        )}
         <tbody>
-        {rowData?.map((result : any, resultIndex) => {
+        {rowData?.map((result: any, resultIndex) => {
           return (
             <tr key={resultIndex}>
               {columns.map((col, columnIndex) => {
@@ -100,6 +105,7 @@ const InfoTable: FC<IProps> = (props) => {
                     isClickable={!!col?.onClick}
                     key={columnIndex}
                     onClick={handleCellClick(cellValue, col?.onClick)}
+                    style={{ ...(col?.styles || {}) }}
                   >
                     {col?.formatter ? col.formatter(cellValue) : cellValue}
                   </TableCell>
@@ -118,6 +124,7 @@ InfoTable.defaultProps = {
   isLoading: false,
   columns: [],
   rowData: [],
+  showColumnHeaders: true,
 };
 
 export default InfoTable;
