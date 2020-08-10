@@ -188,8 +188,8 @@ const Transactions: FC<IProps> = (props) => {
                     <IconArrow/>
                   </ArrowCell>
                   <InfoCell>
-                    {out.map(outTx => (
-                      <LineItem>
+                    {out.map((outTx, index) => (
+                      <LineItem key={index}>
                         {(!outTx.addr || outTx.addr === 'null') ? (
                           <LongTextLine>OP_RETURN</LongTextLine>
                         ) : (

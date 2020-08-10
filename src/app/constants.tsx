@@ -42,7 +42,7 @@ export const IconMagnifyingGlass = () => (
 );
 
 export const IconArrow = () => (
-  <svg enable-background="new 0 0 32 32" height="32px" id="svg2" version="1.1" viewBox="0 0 32 32" width="32px"
+  <svg enableBackground="new 0 0 32 32" height="32px" id="svg2" version="1.1" viewBox="0 0 32 32" width="32px"
        className="sc-1ub63u6-0 uRdJX">
     <g id="background">
       <rect fill="none" height="32" width="32"></rect>
