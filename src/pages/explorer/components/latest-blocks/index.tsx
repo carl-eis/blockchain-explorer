@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useMemo } from 'react';
+import React, { FC, useCallback, useMemo, memo } from 'react';
 import { useHistory } from 'react-router-dom';
 import Moment from 'moment';
 
@@ -93,4 +93,4 @@ LatestBlocks.defaultProps = {
   isLoading: false,
 };
 
-export default LatestBlocks;
+export default memo(LatestBlocks);

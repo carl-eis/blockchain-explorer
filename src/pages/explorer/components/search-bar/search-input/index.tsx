@@ -32,10 +32,18 @@ const StyledInput = styled.input`
 `;
 
 interface IProps {
-  [x: string]: any;
+  onChange: (...args) => void;
+  value: string;
+  placeholder?: string;
 }
 
 const SearchInput: FC<IProps> = (props) => {
+  const {
+    onChange,
+    placeholder,
+    value,
+  } = props;
+
   return (
     <InputWrapper>
       <IconWrapper>
@@ -43,13 +51,19 @@ const SearchInput: FC<IProps> = (props) => {
       </IconWrapper>
       <StyledInput
         type="text"
-        placeholder={"Search for things like address, transaction, block"}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
       />
     </InputWrapper>
   );
 };
 
-SearchInput.defaultProps = {};
+SearchInput.defaultProps = {
+  onChange: () => {},
+  placeholder: "Search for things like address, transaction, block",
+  value: '',
+};
 
 export default SearchInput;
 

@@ -6,6 +6,8 @@ export const BLOCKS_FETCH_START = 'explorer/BLOCKS_FETCH_START';
 export const BLOCKS_FETCH_SUCCESS = 'explorer/BLOCKS_FETCH_SUCCESS';
 export const BLOCKS_FETCH_ERROR = 'explorer/BLOCKS_FETCH_ERROR';
 
+export const SEARCH_VALUE_CHANGE = 'explorer/SEARCH_VALUE_CHANGE';
+
 export const tickersFetchStart = (data?: any) => ({
   type: TICKERS_FETCH_START, data,
 });
@@ -30,3 +32,6 @@ export const blocksFetchError = (data?: any) => ({
   type: BLOCKS_FETCH_ERROR, data,
 });
 
+export const searchValueChange = (data?: any) => ({
+  type: SEARCH_VALUE_CHANGE, data,
+});

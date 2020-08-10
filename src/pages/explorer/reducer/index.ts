@@ -5,6 +5,7 @@ import {
   TICKERS_FETCH_ERROR,
   TICKERS_FETCH_START,
   TICKERS_FETCH_SUCCESS,
+  SEARCH_VALUE_CHANGE,
 } from '../actions';
 
 import { ITickersIndex } from '../helpers/fetch-tracked-tickers';
@@ -24,6 +25,8 @@ export interface IExplorerPageReducerState {
   isLoadingBlocks: boolean;
   hasErrorBlocks: boolean;
   blocks: IBtcLatestBlock[];
+
+  searchText: string;
 }
 
 export const initialState: IExplorerPageReducerState = {
@@ -33,6 +36,7 @@ export const initialState: IExplorerPageReducerState = {
   isLoadingTickers: false,
   tickers: {},
   blocks: [],
+  searchText: '',
 };
 
 const explorerPageReducer = (state = initialState, action: IReducerAction): IExplorerPageReducerState => {
@@ -78,6 +82,12 @@ const explorerPageReducer = (state = initialState, action: IReducerAction): IExp
       return {
         ...state,
         hasErrorBlocks: true,
+      }
+    }
+    case SEARCH_VALUE_CHANGE: {
+      return {
+        ...state,
+        searchText: data,
       }
     }
     default:
