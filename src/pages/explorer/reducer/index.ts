@@ -82,6 +82,7 @@ const explorerPageReducer = (state = initialState, action: IReducerAction): IExp
       return {
         ...state,
         hasErrorBlocks: true,
+        isLoadingBlocks: false,
       }
     }
     case SEARCH_VALUE_CHANGE: {

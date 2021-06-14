@@ -70,7 +70,10 @@ const HomePage: FC<IProps> = () => {
     dispatch(blocksFetchStart());
     fetchBlockInfo()
       .then(response => dispatch(blocksFetchSuccess(response)))
-      .catch(ex => dispatch(blocksFetchError()));
+      .catch((ex) => {
+        console.log(ex)
+        dispatch(blocksFetchError())
+      });
   }, [dispatch]);
 
 

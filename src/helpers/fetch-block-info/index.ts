@@ -3,17 +3,18 @@ import getDetailedBlockInfo, { IBtcDetailedBlockInfo } from '../../api/get-detai
 import getTransactions from '../../api/get-transactions';
 
 const fetchBlockInfo = async () => {
-  const latestBlocks: IBtcLatestBlocksResponse = await getLatestBlocks();
-  const allHeights = latestBlocks?.blocks?.map(block => block?.height);
+  const latestBlocks: any = await getLatestBlocks();
+  const allHeights = latestBlocks.map(block => block?.height);
 
   const detailedBlocks: IBtcDetailedBlockInfo[] = await getDetailedBlockInfo(allHeights);
+
   const allTransactionIds: string[] = detailedBlocks.map(block => block?.tx?.[0]);
 
   const transactions = await getTransactions(allTransactionIds);
 
   return detailedBlocks.map((detailedBlock) => {
     const { size, hash, tx: [firstTx] } = detailedBlock;
-    const matchingLatestBlock = latestBlocks?.blocks.find(item => item?.hash === hash);
+    const matchingLatestBlock = latestBlocks?.find(item => item?.hash === hash);
     const matchingTransaction = transactions.find(tx => tx?.txid === firstTx);
 
     return {
